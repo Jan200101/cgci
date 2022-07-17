@@ -1,0 +1,144 @@
+:root {
+    --tab-color: #DCDCDF;
+
+    --content-even-color: #FFFFFF;
+    --content-odd-color: #F5F5F5;
+
+    --content-in-progress-content: '';
+    --content-in-progress-color: orange;
+    --content-success-content: '✓';
+    --content-success-color: green;
+    --content-failure-content: '⨯';
+    --content-failure-color: red;
+    --content-unknown-content: '?';
+    --content-unknown-color: gray;
+}
+}
+
+html {
+    font-family: sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.title {
+    margin-left: 20px;
+}
+
+.tabs {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.tabs .active {
+    background-color: var(--tab-color);
+}
+
+.tabs tbody td {
+    padding: 0;
+    padding-right: 10px;
+    border-bottom-style: solid;
+    border-color: var(--tab-color);
+}
+
+.tabs tbody td:first-child {
+    padding-left: 20px;
+}
+
+.tabs tbody td:not(:last-child) {
+    width: 1px;
+}
+
+.content {
+    margin: 20px;
+    width: 100%;
+}
+
+
+.content thead {
+    text-align: left;
+}
+
+.content tbody tr:nth-child(even) {
+    background-color: var(--content-even-color);
+}
+
+.content tbody tr:nth-child(odd) {
+    background-color: var(--content-odd-color);
+}
+
+.content a:hover {
+    color: blue;
+}
+
+
+.in-progress {
+    color: var(--content-in-progress-color);
+}
+
+.in-progress::after {
+    padding-left: 5px;
+    content: var(--content-in-progress-content);
+}
+
+.success {
+    color: var(--content-success-color);
+}
+
+.success:after {
+    padding-left: 5px;
+    content: var(--content-success-content);
+}
+
+.failure {
+    color: var(--content-failure-color);
+}
+
+.failure:after {
+    padding-left: 5px;
+    content: var(--content-failure-content);
+}
+
+.unknown {
+    color: var(--content-unknown-color);
+}
+
+.unknown:after {
+    padding-left: 5px;
+    content: var(--content-unknown-content);
+}
+
+.align-right {
+    text-align: right;
+}
+
+.build-info {
+    margin: 20px;
+}
+
+.build-info tr td:first-child {
+    text-align: right;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.build-info *:link,
+.build-info *:link:hover {
+    color: blue;
+}
+
+*:link,
+*:visited,
+*:link:hover
+{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+a:link:hover {
+    text-decoration: underline;
+}
