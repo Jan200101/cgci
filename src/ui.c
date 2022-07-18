@@ -329,7 +329,7 @@ void print_project_list()
                 "<td class=\"%s\">%s</td>"
             "</tr>",
             project->name, project->name,
-            project->description,
+            project->description ? project->description : "",
             time, buildtime,
             class, status
         );

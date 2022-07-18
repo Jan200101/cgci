@@ -73,7 +73,8 @@ void parse_config()
                 assert((size_t)(tail - buf) <= file_size);
                 ++tail;
             }
-            head = tail+1;;
+
+            head = tail++;
             continue;
         }
         else if (*tail == '=')
@@ -119,11 +120,23 @@ void parse_config()
             }
             else if (!strcmp(key, "project.script"))
             {
-                config.projects[config.project_count-1].script_path = strdup(value);
+                if (config.project_count > 0)
+                {
+                    if (config.projects[config.project_count-1].script_path)
+                        free(config.projects[config.project_count-1].script_path);
+
+                    config.projects[config.project_count-1].script_path = strdup(value);
+                }
             }
             else if (!strcmp(key, "project.description"))
             {
-                config.projects[config.project_count-1].description = strdup(value);   
+                if (config.project_count > 0)
+                {
+                    if (config.projects[config.project_count-1].description)
+                        free(config.projects[config.project_count-1].description);
+
+                    config.projects[config.project_count-1].description = strdup(value);   
+                }
             }
 
             key = NULL;
