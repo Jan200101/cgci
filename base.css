@@ -12,11 +12,9 @@
     --content-failure-color: red;
     --content-unknown-content: '?';
     --content-unknown-color: gray;
-}
-}
 
-html {
     font-family: sans-serif;
+    font-size: 90%;
 }
 
 table {
@@ -35,12 +33,13 @@ table {
 }
 
 .tabs .active {
+    padding: 2px 0.7em;
     background-color: var(--tab-color);
 }
 
 .tabs tbody td {
-    padding: 0;
-    padding-right: 10px;
+    padding: 2px 0.7em;
+    padding-bottom: 0;
     border-bottom-style: solid;
     border-color: var(--tab-color);
 }
@@ -127,13 +126,13 @@ table {
 }
 
 .build-info *:link,
+.build-info *:visited,
 .build-info *:link:hover {
     color: blue;
 }
 
-*:link,
-*:visited,
-*:link:hover
+a:link,
+a:visited
 {
     color: inherit;
     text-decoration: inherit;
@@ -142,3 +141,14 @@ table {
 a:link:hover {
     text-decoration: underline;
 }
+
+.log {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid;
+    background-color: black;
+    color: white;
+    max-width: 650px;
+    overflow: scroll;
+}
+

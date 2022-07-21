@@ -203,7 +203,7 @@ void print_build_info()
                 "</tr>-->"
             "</tbody>"
         "</table>"
-        "<pre>%s</pre>",
+        "<pre class=\"log\">%s</pre>",
         current_build->name, time, current_build->completion ? buildtime : "",
         build_class[current_build->status], build_string[current_build->status],
         current_project->name, current_build->name,

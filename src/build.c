@@ -97,7 +97,7 @@ void create_build()
             strcat(build_path, "/log");
 
             freopen(build_path, "w", stdout);
-            freopen(build_path, "w", stderr);
+            dup2(1, 2);
 
             free(build_path);
         }
