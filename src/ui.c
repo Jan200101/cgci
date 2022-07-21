@@ -23,11 +23,29 @@ void print_html()
             {
                 if (context.extra)
                 {
-                    printf(CONTENT_TYPE_FORMAT, TEXT_PLAIN);
-                    printf("%s", current_build->log);
+                    if (!strcmp(context.extra, "raw_log"))
+                    {
+                        printf(CONTENT_TYPE_FORMAT, TEXT_PLAIN);
+                        printf("%s", current_build->log);
+                    }
+                    else if (!strcmp(context.extra, "log"))
+                    {
+                        printf(CONTENT_TYPE_FORMAT, TEXT_HTML);
+                        print_head();
+                        printf(
+                            "<pre>%s</pre>",
+                            current_build->log
+                        );
+                    }
+                    else
+                    {
+                        printf(CONTENT_TYPE_FORMAT, TEXT_PLAIN);
+                        printf("Invalid path");
+                    }
+
                 }
                 else
-                {                
+                {
                     printf(CONTENT_TYPE_FORMAT, TEXT_HTML);
                     printf(HTML_START);
                     print_head();
@@ -45,7 +63,7 @@ void print_html()
 
                     printf(CONTENT_TYPE_FORMAT, TEXT_HTML);
                     printf(HTML_START);
-                    print_head();    
+                    print_head();
                     printf(HTML_END);
                 }
                 else
@@ -54,7 +72,7 @@ void print_html()
                     printf(HTML_START);
                     print_head();
                     print_title();
-                    print_build_nav();     
+                    print_build_nav();
                     print_build_trigger();
                     printf(HTML_END);
                 }
@@ -192,7 +210,7 @@ void print_build_info()
                 "<tr>"
                     "<td>Log</td>"
                     "<td>"
-                        "<a href=\"/%s/builds/%s/log\">Raw</a>"
+                        "<a href=\"/%s/builds/%s/raw_log\">Raw</a>"
                     "</td>"
                 "</tr>"
                 "<!--<tr>"
@@ -242,7 +260,7 @@ void print_build_list()
 
     for (size_t i = 0; i < current_project->build_count; ++i)
     {
-        struct build_t* build = &current_project->builds[i];   
+        struct build_t* build = &current_project->builds[i];
 
         // YYYY-MM-DD HH:MM
         char time[18];
@@ -369,7 +387,7 @@ void strdifftime(time_t time1, time_t time0, char* str, size_t size)
         return;
 
     double diff = difftime(time1, time0);
-    
+
     if (diff > 0)
     {
         *str = '\0';

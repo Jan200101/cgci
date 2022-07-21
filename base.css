@@ -3,6 +3,7 @@
 
     --content-even-color: #FFFFFF;
     --content-odd-color: #F5F5F5;
+    --content-hover-color: #DFDFDF;
 
     --content-in-progress-content: '';
     --content-in-progress-color: orange;
@@ -62,12 +63,17 @@ table {
     text-align: left;
 }
 
+
 .content tbody tr:nth-child(even) {
     background-color: var(--content-even-color);
 }
 
 .content tbody tr:nth-child(odd) {
     background-color: var(--content-odd-color);
+}
+
+.content tbody tr:hover {
+    background-color: var(--content-hover-color);
 }
 
 .content a:hover {
