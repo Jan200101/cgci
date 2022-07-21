@@ -57,6 +57,7 @@ void init_config()
                 if (!strcmp(context.index, config.projects[i].builds[j].name))
                 {
                     current_build = &config.projects[i].builds[j];
+                    load_full_build(current_project, current_build);
                     break;
                 }
             }

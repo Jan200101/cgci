@@ -208,21 +208,6 @@ void parse_config()
                 }
                 build[build_size] = '\0';
 
-                strcat(build, "/log");
-                fd = fopen(build, "rb");
-                if (fd)
-                {
-                    fseek(fd, 0, SEEK_END);
-                    size_t size = (size_t)ftell(fd);
-                    rewind(fd);
-
-                    config.projects[i].builds[config.projects[i].build_count-1].log = malloc(size + 1);
-                    fread(config.projects[i].builds[config.projects[i].build_count-1].log, sizeof(char), size, fd);
-                    fclose(fd);
-                    config.projects[i].builds[config.projects[i].build_count-1].log[size] = '\0';
-                }
-                build[build_size] = '\0';
-
                 free(build);
             }
             closedir(dir);
@@ -250,6 +235,32 @@ void parse_config()
     }
 
     free(buf);
+}
+
+void load_full_build(struct project_t* project, struct build_t* build)
+{
+    if (!build)
+        return;
+
+    char* path = build_dir(project->name, build->name);
+    size_t build_size = strlen(path);
+    path = realloc(path, (build_size + 11 + 1) * sizeof(char));
+    FILE* fd;
+
+    strcat(path, "/log");
+    fd = fopen(path, "rb");
+    if (fd)
+    {
+        fseek(fd, 0, SEEK_END);
+        size_t size = (size_t)ftell(fd);
+        rewind(fd);
+
+        build->log = malloc(size + 1);
+        fread(build->log, sizeof(char), size, fd);
+        fclose(fd);
+        build->log[size] = '\0';
+    }
+    path[build_size] = '\0';
 }
 
 void parse_path(const char* path)

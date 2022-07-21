@@ -43,7 +43,6 @@ extern struct build_t* current_build;
 
 void init_config();
 void deinit_config();
-void parse_config();
 
 char* cache_dir();
 char* project_dir(char* project);
