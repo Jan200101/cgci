@@ -29,9 +29,10 @@ struct build_t* current_build = NULL;
 
 void init_config()
 {
-    config.cache_dir = NULL;
+    config.path_prefix = NULL;
     config.token = NULL;
-    config.projects = malloc(1);
+
+    config.projects = NULL;
     config.project_count = 0;
 
     parse_config();
@@ -67,34 +68,26 @@ void init_config()
 
 void deinit_config()
 {
-    if (config.cache_dir)
-        free(config.cache_dir);
-
-    if (config.token)
-        free(config.token);
+    free(config.path_prefix);
+    free(config.token);
 
     if (config.projects)
     {
         for (size_t i = 0; i < config.project_count; ++i)
         {
-            if (config.projects[i].name)
-                free(config.projects[i].name);
+            free(config.projects[i].name);
 
-            if (config.projects[i].script_path)
-                free(config.projects[i].script_path);
+            free(config.projects[i].script_path);
 
-            if (config.projects[i].description)
-                free(config.projects[i].description);
+            free(config.projects[i].description);
 
             if (config.projects[i].builds)
             {
                 for (size_t j = 0; j < config.projects[i].build_count; ++j)
                 {
-                    if (config.projects[i].builds[j].name)
-                        free(config.projects[i].builds[j].name);
+                    free(config.projects[i].builds[j].name);
 
-                    if (config.projects[i].builds[j].log)
-                        free(config.projects[i].builds[j].log);
+                    free(config.projects[i].builds[j].log);
                 }
 
                 free(config.projects[i].builds);
@@ -130,10 +123,10 @@ char* project_dir(char* project)
     if (!cache)
         return cache;
 
-    size_t size = strlen(cache) + 1 + strlen(project) ;
-    cache = realloc(cache, size+1);
-    strncat(cache, "/", size);
-    strncat(cache, project, size);
+    size_t size = strlen(cache) + 1 + strlen(project) + 1;
+    cache = realloc(cache, size);
+    strncat(cache, "/", size - strlen(cache) - 1);
+    strncat(cache, project, size - strlen(cache) - 1);
     cache[size] = '\0';
 
     return cache;

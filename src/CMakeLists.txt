@@ -21,12 +21,16 @@ list(APPEND
 )
 
 set(CFLAGS
-    -Wall -Wextra -pedantic
-    -Wconversion -Wshadow -Wstrict-aliasing
-    -Winit-self -Wcast-align -Wpointer-arith
-    -Wmissing-declarations -Wmissing-include-dirs
+    -Wall -Wextra -Wfloat-equal
+    -Wstrict-overflow=5 -Wunreachable-code
+    -Wundef -Wcast-qual -Wconversion 
+    -Wswitch-default -Wmissing-include-dirs
+    -Wshadow -Wstrict-aliasing -Winit-self
+    -Wcast-align -Wpointer-arith
     -Wno-unused-parameter -Wuninitialized
 )
+
+
 
 set(CMAKE_EXECUTABLE_SUFFIX ".cgi")
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})

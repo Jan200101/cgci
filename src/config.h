@@ -25,14 +25,16 @@ struct project_t {
     char* name;
     char* script_path;
     char* description;
+    char* token;
 
     struct build_t* builds;
     size_t build_count;
 };
 
 struct config_t {
-    char* cache_dir;
+    char* path_prefix;
     char* token;
+
     struct project_t* projects;
     size_t project_count;
 };

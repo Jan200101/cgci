@@ -57,7 +57,11 @@ void print_html()
             }
             else if (!strcmp(context.action, "trigger"))
             {
-                if (context.token && config.token && !strcmp(context.token, config.token))
+                char* token = current_project->token;
+                if (!token)
+                    token = config.token;
+
+                if (context.token && token && !strcmp(context.token, token))
                 {
                     create_build();
 
@@ -119,7 +123,7 @@ void print_head()
         && context.token && config.token && !strcmp(context.token, config.token))
         printf("<meta http-equiv=\"refresh\" content=\"0; url=/%s\"/>", current_project->name);
 
-    printf("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/base.css\"/>");
+    printf("<link rel=\"stylesheet\" type=\"text/css\" href=\"%s/assets/base.css\"/>", config.path_prefix ? config.path_prefix : "");
     printf("</head>");
 }
 
@@ -127,11 +131,14 @@ void print_title()
 {
     printf("<h1 class=\"title\">");
 
-    printf("<a %s>CGCI</a>", context.project != NULL ? "href=\"/\"" : "");
+    printf("<a ");
+    if (context.project)
+        printf("href=%s/", config.path_prefix ? config.path_prefix : "");
+    printf(">CGCI</a>");
 
     if (context.project)
     {
-        printf(" : <a href=\"/%s\">%s</a>", context.project, context.project);
+        printf(" : <a href=\"%s/%s\">%s</a>", config.path_prefix ? config.path_prefix : "", context.project, context.project);
         if (context.action)
         {
             printf(" : %s", context.action);
@@ -152,7 +159,7 @@ void print_build_nav()
         current_project->name
     );
 
-    if (config.token && current_project->script_path && strlen(current_project->script_path))
+    if ((config.token || current_project->token) && current_project->script_path && strlen(current_project->script_path))
     {
         printf(
             "<td class=\"align-right\">"
@@ -296,11 +303,12 @@ void print_project_nav()
             "<tbody>"
                 "<tr>"
                     "<td>"
-                        "<a href=\"/\" class=\"active\">Projects</a>"
+                        "<a href=\"%s/\" class=\"active\">Projects</a>"
                     "</td>"
                 "</tr>"
             "</tbody>"
-        "</table>"
+        "</table>",
+        config.path_prefix ? config.path_prefix : ""
     );
 }
 
@@ -339,13 +347,14 @@ void print_project_list()
         printf(
             "<tr>"
                 "<td>"
-                    "<a href=\"/%s\">%s</a>"
+                    "<a href=\"%s/%s\">%s</a>"
                 "</td>"
                 "<td>%s</td>"
                 "<td>%s</td>"
                 "<td>%s</td>"
                 "<td class=\"%s\">%s</td>"
             "</tr>",
+            config.path_prefix ? config.path_prefix : "",
             project->name, project->name,
             project->description ? project->description : "",
             time, buildtime,

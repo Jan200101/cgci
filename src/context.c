@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "env.h"
 #include "parser.h"
 #include "context.h"
@@ -6,9 +9,11 @@ struct context_t context;
 
 void init_context()
 {
-    context.document_root = getenv_default("DOCUMENT_ROOT", "/");
-    context.raw_path = getenv_default("PATH_INFO", "/");
-    context.path = malloc(1);
+    context.raw_path = getenv("PATH_INFO");
+    if (!context.raw_path || !strlen(context.raw_path))
+        context.raw_path = getenv_default("SCRIPT_NAME", "/");
+
+    context.path = NULL;
     context.path_length = 0;
 
     context.project = NULL;
@@ -55,13 +60,10 @@ void deinit_context()
     {
         for (size_t i = 0; i < context.path_length; ++i)
         {
-            if (context.path[i])
-                free(context.path[i]);
+            free(context.path[i]);
         }
 
         free(context.path);
-
-        if (context.token)
-            free(context.token);
+        free(context.token);
     }
 }

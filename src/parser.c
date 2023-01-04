@@ -74,7 +74,7 @@ void parse_config()
                 ++tail;
             }
 
-            head = tail++;
+            head = ++tail;
             continue;
         }
         else if (*tail == '=')
@@ -97,15 +97,15 @@ void parse_config()
 
         if (key && value)
         {
-            if (!strcmp(key, "cache-dir"))
-            {
-                assert(!config.cache_dir);
-                config.cache_dir = strdup(value);
-            }
             if (!strcmp(key, "token"))
             {
-                assert(!config.token);
+                free(config.token);
                 config.token = strdup(value);
+            }
+            else if (!strcmp(key, "path-prefix"))
+            {
+                free(config.path_prefix);
+                config.path_prefix = strdup(value);
             }
             else if (!strcmp(key, "project.name"))
             {
@@ -117,14 +117,13 @@ void parse_config()
                 config.projects[config.project_count-1].name = strdup(value);
                 config.projects[config.project_count-1].script_path = NULL;
                 config.projects[config.project_count-1].description = NULL;
+                config.projects[config.project_count-1].token = NULL;
             }
             else if (!strcmp(key, "project.script"))
             {
                 if (config.project_count > 0)
                 {
-                    if (config.projects[config.project_count-1].script_path)
-                        free(config.projects[config.project_count-1].script_path);
-
+                    free(config.projects[config.project_count-1].script_path);
                     config.projects[config.project_count-1].script_path = strdup(value);
                 }
             }
@@ -132,10 +131,16 @@ void parse_config()
             {
                 if (config.project_count > 0)
                 {
-                    if (config.projects[config.project_count-1].description)
-                        free(config.projects[config.project_count-1].description);
-
+                    free(config.projects[config.project_count-1].description);
                     config.projects[config.project_count-1].description = strdup(value);   
+                }
+            }
+            else if (!strcmp(key, "project.token"))
+            {
+                if (config.project_count > 0)
+                {
+                    free(config.projects[config.project_count-1].token);
+                    config.projects[config.project_count-1].token = strdup(value);   
                 }
             }
 
@@ -265,9 +270,6 @@ void load_full_build(struct project_t* project, struct build_t* build)
 
 void parse_path(const char* path)
 {
-    size_t path_len = strlen(path) + 1;
-    const char* const orig_path = path;
-
     if (path[0] != '/')
         return;
 
@@ -275,7 +277,6 @@ void parse_path(const char* path)
 
     while(*path)
     {
-        assert(orig_path+path_len >= path);
         ++path;
         if (*path == '/' || *path == '\0')
         {

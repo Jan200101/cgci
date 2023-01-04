@@ -5,8 +5,6 @@
 #include <stdlib.h>
 
 struct context_t {
-    char* document_root;
-
     char* raw_path;
 
     char** path; /* NULLABLE */

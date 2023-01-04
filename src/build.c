@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
+#include <inttypes.h>
 
 #include "config.h"
 #include "fs.h"
@@ -59,10 +60,10 @@ void create_build()
     if (!current_project)
         return;
 
-    int build_id = 0;
+    uintmax_t build_id = 0;
 
     if (current_project->build_count > 0)
-        build_id = atoi(current_project->builds[0].name)+1;
+        build_id = strtoumax(current_project->builds[0].name, NULL, 10)+1;
 
     if (build_id <= 0)
         build_id = 1;
@@ -74,7 +75,7 @@ void create_build()
     build.status = STATUS_INPROGRESS;
 
     size_t name_len = 1;
-    int temp = build_id;
+    uintmax_t temp = build_id;
 
     while (temp > 10)
     {
@@ -83,7 +84,7 @@ void create_build()
     }
 
     build.name = malloc((name_len + 1) * sizeof(char));
-    sprintf(build.name, "%d", build_id);
+    sprintf(build.name, "%ld", build_id);
 
     write_build(current_project->name, build.name, &build);
 
