@@ -1,0 +1,15 @@
+# example config
+
+# token is used for authentication
+token=keep-private
+
+# project info is declared after name
+project.name=example
+project.description=example project
+
+# everything (except name) is optional
+project.name=another-example
+project.description=another-example project
+project.script=/path/to/build/script
+# projects can have their own token
+project.token=keep-very-private
