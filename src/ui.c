@@ -118,9 +118,17 @@ void print_head()
     }
     printf("</title>");
 
+    char* token = config.token;
+    if (current_project)
+    {
+        token = current_project->token;
+        if (!token)
+            token = config.token;
+    }
+
     if (current_project && current_project->name
         && context.action && !strcmp(context.action, "trigger")
-        && context.token && config.token && !strcmp(context.token, config.token))
+        && context.token && token && !strcmp(context.token, token))
         printf("<meta http-equiv=\"refresh\" content=\"0; url=/%s\"/>", current_project->name);
 
     printf("<link rel=\"stylesheet\" type=\"text/css\" href=\"%s/assets/base.css\"/>", config.path_prefix ? config.path_prefix : "");
@@ -241,12 +249,12 @@ void print_build_trigger()
     printf(
         "<form>"
             "<label>Trigger Build</label><br>"
-            "%s"
             "<input name=\"token\" type=\"password\" placeholder=\"token\" value=\"%s\" required><br>"
+            "%s"
             "<input type=\"submit\" value=\"submit\">"
         "</form>",
-        context.token ? "Invalid token" : "",
-        context.token ? context.token : ""
+        context.token ? context.token : "",
+        context.token ? "Invalid token<br>" : ""
     );
 }
 

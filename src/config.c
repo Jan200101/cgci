@@ -127,7 +127,7 @@ char* project_dir(char* project)
     cache = realloc(cache, size);
     strncat(cache, "/", size - strlen(cache) - 1);
     strncat(cache, project, size - strlen(cache) - 1);
-    cache[size] = '\0';
+    cache[size-1] = '\0';
 
     return cache;
 }
@@ -142,11 +142,11 @@ char* build_dir(char* project, char* build)
     if (!project_path)
         return project_path;
 
-    size_t size = strlen(project_path) + 1 + strlen(build) ;
-    project_path = realloc(project_path, size+1);
-    strncat(project_path, "/", size);
-    strncat(project_path, build, size);
-    project_path[size] = '\0';
+    size_t size = strlen(project_path) + 1 + strlen(build) + 1;
+    project_path = realloc(project_path, size);
+    strncat(project_path, "/", size - strlen(project_path) - 1);
+    strncat(project_path, build, size - strlen(project_path) - 1);
+    project_path[size-1] = '\0';
 
     return project_path;
 }

@@ -309,9 +309,8 @@ void parse_query(const char* query_arg)
     char* key = head;
     char* value = NULL;
 
-    while (head <= end)
+    while (++head <= end)
     {
-        ++head;
         if (!value && *head == '=')
         {
             *head = '\0';

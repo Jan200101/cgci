@@ -103,6 +103,9 @@ void create_build()
             free(build_path);
         }
 
+        printf("Running '%s'\n", current_project->script_path);
+        fflush(stdout);
+
         int status = system(current_project->script_path);
         if (status)
             build.status = STATUS_FAILURE;
