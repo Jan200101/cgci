@@ -18,6 +18,7 @@ void print_build_trigger();
 void print_build_list();
 void print_project_nav();
 void print_project_list();
+void print_footer();
 
 void print_asset(const char*);
 

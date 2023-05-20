@@ -1,5 +1,5 @@
 :root {
-    --tab-color: #DCDCDF;
+    --tab-color: #CCCCCF;
 
     --content-even-color: #FFFFFF;
     --content-odd-color: #F5F5F5;
@@ -80,6 +80,14 @@ table {
     color: blue;
 }
 
+.footer {
+    width: 100%;
+    color: lightgray;
+    font-size: 70%;
+    text-align: center;
+
+    padding-top: 10px;
+}
 
 .in-progress {
     color: var(--content-in-progress-color);
