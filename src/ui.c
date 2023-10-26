@@ -450,7 +450,7 @@ void strdifftime(time_t time1, time_t time0, char* str, size_t size)
         if (minutes)
             snprintf(str+strlen(str), size, "%i minutes ", minutes);
 
-        if (seconds)
+        if (hours || minutes || seconds)
             snprintf(str+strlen(str), size, "%i seconds ", seconds);
     }
 }
