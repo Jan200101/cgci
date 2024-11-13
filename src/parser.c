@@ -77,7 +77,7 @@ void parse_config()
             head = ++tail;
             continue;
         }
-        else if (*tail == '=')
+        else if (*tail == '=' && !key)
         {
             key = head;
             *tail = '\0';
