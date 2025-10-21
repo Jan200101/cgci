@@ -20,7 +20,7 @@ void argv_to_path(int argc, char** argv)
         {
             arg_path_length += strlen(argv[i]) + 1;
 
-            arg_path = realloc(arg_path, sizeof(char) * arg_path_length);
+            arg_path = realloc(arg_path, arg_path_length * sizeof(char));
 
             strncat(arg_path, "/", arg_path_length - strlen(arg_path));
             strncat(arg_path, argv[i], arg_path_length - strlen(arg_path));
@@ -48,7 +48,7 @@ void parse_config()
     size_t file_size = (size_t)ftell(fd);
     rewind(fd);
 
-    char* buf = malloc(file_size+1);
+    char* buf = malloc((file_size + 1) * sizeof(char));
     assert(buf);
 
     fread(buf, sizeof(char), file_size, fd);
@@ -260,7 +260,7 @@ void load_full_build(struct project_t* project, struct build_t* build)
         size_t size = (size_t)ftell(fd);
         rewind(fd);
 
-        build->log = malloc(size + 1);
+        build->log = malloc((size + 1) * sizeof(char));
         fread(build->log, sizeof(char), size, fd);
         fclose(fd);
         build->log[size] = '\0';
