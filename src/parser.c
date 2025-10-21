@@ -51,7 +51,7 @@ void parse_config()
     char* buf = malloc(file_size+1);
     assert(buf);
 
-    fread(buf, sizeof(char*), file_size, fd);
+    fread(buf, sizeof(char), file_size, fd);
     buf[file_size] = '\0';
 
     fclose(fd);
